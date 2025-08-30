@@ -40,7 +40,7 @@ class Counter {
 /**
  * 클라이언트 코드 (여러 군데에서 Counter.instance를 가져다 씀)
  */
-function clientCode2() {
+function clientCode3() {
   const c1 = Counter.instance;
   const c2 = Counter.instance;
 
@@ -52,4 +52,4 @@ function clientCode2() {
   console.log(c1 === c2); // true → 두 변수는 같은 인스턴스
 }
 
-clientCode2();
+clientCode3();
