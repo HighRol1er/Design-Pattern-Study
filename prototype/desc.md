@@ -177,3 +177,10 @@ const copies = app.businessLogic();
 console.log(app.shapes, copies);
 ```
 > 위 예시는 숫자와 문자열 같은 불변/원시 값만 복사합니다. 만약 필드에 객체(배열,Map)가 있다면, 복제가 얕은 복사가 되지 않도록 각 구상 클래스의 `constructor(source)`에서 해당 필드에 맞는 깊은 복사 로직을 추가하세요.
+
+## js/ts에서는 잘 사용하지 않는 패턴 
+
+JS/TS 에서는 해당 프로토타입 패턴을 잘 사용하지 않는 이유가 있습니다.<br/>
+왜냐하면 JavaScript 객체는 본질적으로 프로토타입 체인을 이용해서 상속을 처리합니다. 이렇기에 별도의 프로토타입 패턴을 구현할 필요가 적습니다. 
+
+이미 JavaScript 객체에는 `Object.create`, `({ ...obj})`, `Object.assign`과 같은 객체 복제 메서드가 존재합니다.
