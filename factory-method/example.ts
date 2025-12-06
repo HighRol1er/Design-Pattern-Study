@@ -8,11 +8,11 @@ class NaverUser implements User {
   }
 }
 
-class GoogleUser implements User {
-  signup(): void {
-    console.log("google user signup");
-  }
-}
+// class GoogleUser implements User {
+//   signup(): void {
+//     console.log("google user signup");
+//   }
+// }
 
 abstract class AuthFactory {
   abstract createUser(): User;
@@ -29,18 +29,18 @@ class NaverAuthFactory extends AuthFactory {
   }
 }
 
-class GoogleAuthFactory extends AuthFactory {
-  createUser(): User {
-    return new GoogleUser();
-  }
-}
+// class GoogleAuthFactory extends AuthFactory {
+//   createUser(): User {
+//     return new GoogleUser();
+//   }
+// }
 
 // client code
 
 const naverAuthFactory = new NaverAuthFactory();
 naverAuthFactory.signup();
 
-const googleAuthFactory = new GoogleAuthFactory();
-googleAuthFactory.signup();
+// const googleAuthFactory = new GoogleAuthFactory();
+// googleAuthFactory.signup();
 
 // 어렵넹..
