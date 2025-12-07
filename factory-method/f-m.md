@@ -140,10 +140,13 @@ class KakaoAuthFactory implements AuthFactory {
 ```
 
 ## Creator에 대한 오해
+
 <img width="1320" height="760" alt="image" src="https://github.com/user-attachments/assets/199fc96b-2fe3-4095-ae69-18799228a1aa" />
-`Creator`라는 이름에도 불구하고 `Creator`의 주책임은 제품을 생성하는 것이 아닙니다. 
-일반적으로 `Creator` 클래스에는 이미 제품과 관련된 핵심 비즈니스 로직이 있으며, 
-팩토리 메서드는 이 로직을 구상 제품 클래스들로부터 디커플링(분리) 하는 데 도움을 줄 뿐입니다.
+
+`Creator`라는 이름에도 불구하고 `Creator`의 주책임은 제품을 생성하는 것이 아닙니다.</br>
+일반적으로 `Creator` 클래스에는 이미 제품과 관련된 핵심 비즈니스 로직이 있으며,</br>
+팩토리 메서드는 이 로직을 구상 제품 클래스들로부터 디커플링(분리) 하는 데 도움을 줄 뿐입니다.</br>
+
 ```ts
 // ❌ 오해: 크리에이터가 객체만 만드는 공장?
 abstract class AuthFactory {
