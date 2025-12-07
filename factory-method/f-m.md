@@ -248,6 +248,9 @@ class GoogleAuthFactory extends AuthFactory {
   }
 }
 ```
+## 3가지 장점 한눈에 보기 (다이어그램) 
+<img width="883" height="640" alt="스크린샷 2025-12-07 오후 2 40 20" src="https://github.com/user-attachments/assets/b9941a27-6574-4785-9084-7cfa82ae8eed" />
+
 
 # 핵심 요약 
 팩토리 메서드 패턴은 객체 생성 로직을 서브클래스에 위임함으로서 비즈니스 로직이 구체 클래스에 의존하지 않도록 하는 패턴
