@@ -182,6 +182,81 @@ abstract class AuthFactory {
 ```
 - 팩토리 메서드는 **핵심 비즈니스 로직에서 구체적인 클래스 의존성을 분리**하기 위한 도구.
 
+# 전체코드 (로그인 과정)
+```ts
+interface User {
+  type: string;
+  email: string;
+  password: string;
+}
+
+class NaverUser implements User {
+  // 💡 User 인터페이스의 속성을 구현합니다.
+  type: string;
+  email: string;
+  password: string;
+
+  constructor(type: string, email: string, password: string) {
+    this.type = type;
+    this.email = email;
+    this.password = password;
+  }
+}
+
+// ✅ 실제: 크리에이터는 핵심 비즈니스 로직을 가진 클래스
+abstract class AuthFactory {
+  abstract createUser(type: string, email: string, password: string): User;
+
+  // 👇 이게 진짜 주 책임! 회원가입 프로세스 전체를 관리
+  signup(type: string, email: string, password: string) {
+    // 1. 이메일 유효성 검사
+    this.validateEmail(email);
+
+    // 2. 비밀번호 암호화
+    const encryptedPw = this.encryptPassword(password);
+
+    // 3. 사용자 생성 (여기만 유연하게!)
+    const user = this.createUser(type, email, password);
+
+    // 4. 데이터베이스 저장
+    this.saveToDatabase(user);
+
+    // 5. 환영 이메일 발송
+    this.sendWelcomeEmail(user);
+
+    return user;
+  }
+
+  private validateEmail(email: string) {}
+  private encryptPassword(pw: string) {}
+  private saveToDatabase(user: User) {}
+  private sendWelcomeEmail(user: User) {}
+}
+
+class NaverAuthFactory extends AuthFactory {
+  createUser(type: string, email: string, password: string): User {
+    return new NaverUser(type, email, password);
+  }
+}
+
+// 개선: 타입에 따라 자동으로 Factory 선택
+function getAuthFactory(type: string): AuthFactory {
+  switch (type) {
+    case "Naver":
+      return new NaverAuthFactory();
+    // case "Kakao": return new KakaoAuthFactory();
+    // case "Google": return new GoogleAuthFactory();
+    default:
+      throw new Error("Unknown type");
+  }
+}
+
+// client code
+// Client는 구체적인 Factory를 몰라도 됨!
+const factory = getAuthFactory("Naver"); // ← 추상 타입만 알면 OK
+const user = factory.signup("Naver", "joe", "123");
+```
+
 # 참고 자료
 
 https://heyjoshlee.medium.com/factory-functions-in-javascript-the-how-and-why-d8988bda654a
