@@ -78,7 +78,7 @@ Factory Method is a creational design pattern that provides an interface for cre
 
 > Factory Method는 부모 클래스에서 객체들을 생성할 수 있는 인터페이스를 제공하지만, 자식 클래스들이 생성될 객체들의 유형을 변경할 수 있도록 하는 생성 패턴입니다.
 
-**1. 부모 클래스(super class)에서 객체들을 생성할 수 있는 인터페이스를 제공한다.**
+**1. 부모 클래스(super class)에서 객체들을 생성할 수 있는 인터페이스를 제공한다.**</br>
 **2. 자식 클래스들(sub classes)은 생성될 객체들의 유형을 변경할 수 있다.**(오버라이드)
 
 ## 다이어그램으로 보기 (참고용) 
