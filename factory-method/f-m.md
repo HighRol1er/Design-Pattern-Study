@@ -1,4 +1,30 @@
-# Factory
+# 목차 
+ ## 목차
+- [I. Factory](#i-factory)
+  - [리터럴로 객체 생성하기 vs 팩토리 함수](#리터럴로-객체-생성하기-vs-팩토리-함수)
+  - [객체 리터럴-안전할까요](#객체-리터럴-안전할까요)
+  - [팩토리함수로-극복하기](#팩토리함수로-극복하기)
+  - [Factory 한 줄 정리](#factory-한-줄-정리)
+- [II. Factory Method Pattern](#factory-method-pattern)
+  - [다이어그램으로 보기 (참고용)](#다이어그램으로-보기-참고용)
+  - [핵심 아이디어](#핵심-아이디어)
+  - [부모 클래스에서 객체들을 생성할 수 있는 인터페이스란](#부모-클래스에서-객체들을-생성할-수-있는-인터페이스란)
+  - [자식 클래스에서 생성될 객체들의 유형 변경이란](#자식-클래스에서-생성될-객체들의-유형-변경이란)
+  - [객체 생성 인터페이스-아니고 추상 클래스!](#객체-생성-인터페이스-아니고-추상-클래스)
+  - [Creator에 대한 오해](#creator에-대한-오해)
+  - [팩토리 메서드의 3가지 장점](#팩토리-메서드의-3가지-장점)
+    - [1. 관심사 분리](#1-관심사-분리)
+    - [2. 단일 책임 원칙](#2-단일-책임-원칙)
+    - [3. 개방-폐쇄-원칙](#3-개방-폐쇄-원칙)
+    - [3가지 장점 한눈에 보기 (다이어그램)](#3가지-장점-한눈에-보기-다이어그램)
+  - [핵심 요약](#핵심-요약)
+- [참고 자료](#참고-자료)
+- [전체코드 (로그인 프로세스)](#전체코드-로그인-프로세스)
+
+ ---
+  
+
+# I. Factory
 
 - 팩토리 함수의 핵심은 객체를 생성하고 반환하는 함수
 
@@ -72,6 +98,12 @@ Factory란 객체를 대신 생성해 주는 것 (함수,클래스 상관없이 
 
 # Factory Method Pattern
 
+## 다이어그램으로 보기 (참고용) 
+
+<img width="1320" height="760" alt="image" src="https://github.com/user-attachments/assets/dde3ca12-b95c-46de-82e8-73125eef207f" />
+
+<img width="2158" height="1280" alt="image" src="https://github.com/user-attachments/assets/17a34332-cccd-4ab6-b3ea-d55e06dcaf2b" />
+
 ## 💡핵심 아이디어 
 
 Factory Method is a creational design pattern that provides an interface for creating objects in a superclass, but allows subclasses to alter the type of objects that will be created.
@@ -81,13 +113,7 @@ Factory Method is a creational design pattern that provides an interface for cre
 **1. 부모 클래스(super class)에서 객체들을 생성할 수 있는 인터페이스를 제공한다.**</br>
 **2. 자식 클래스들(sub classes)은 생성될 객체들의 유형을 변경할 수 있다.**(오버라이드)
 
-## 다이어그램으로 보기 (참고용) 
-
-<img width="1320" height="760" alt="image" src="https://github.com/user-attachments/assets/dde3ca12-b95c-46de-82e8-73125eef207f" />
-
-<img width="2158" height="1280" alt="image" src="https://github.com/user-attachments/assets/17a34332-cccd-4ab6-b3ea-d55e06dcaf2b" />
-
-## 부모 클래스에서 객체들을 생성할 수 있는 인터페이스란❓
+### 부모 클래스에서 객체들을 생성할 수 있는 인터페이스란❓
 ```ts
 // 1. 부모 클래스에서 객체들을 생성할 수 있는 인터페이스를 제공한다.
 abstract class AuthFactory {
@@ -102,7 +128,7 @@ abstract class AuthFactory {
 - `createUser()` 추상 메서드가 "객체 생성 인터페이스"
 - `signup()` 메서드에서 구체적인 타입을 모르는 채로 `createUser()`를 호출
 
-## 자식 클래스에서 생성 될 객체들의 유형 변경이란❓
+### 자식 클래스에서 생성 될 객체들의 유형 변경이란❓
 ```ts
 // 2.자식 클래스는 생성될 객체들의 유형을 변경할 수 있다.
 class NaverAuthFactory extends AuthFactory {
@@ -182,12 +208,12 @@ abstract class AuthFactory {
 ```
 - 팩토리 메서드는 **핵심 비즈니스 로직에서 구체적인 클래스 의존성을 분리**하기 위한 도구.
 
-# 팩토리 메서드의 3가지 장점
+## 팩토리 메서드의 3가지 장점
 - 관심사 분리
 - 단일 책임 원칙
 - 개방/폐쇄 원칙
 
-## 1. 관심사 분리 
+### 1. 관심사 분리 
 
 ```ts
 // 1. 부모 클래스에서 객체들을 생성할 수 있는 인터페이스를 제공한다.
@@ -215,7 +241,7 @@ class NaverAuthFactory extends AuthFactory {
 }
 ```
 
-## 2. 단일 책임 원칙 (제품 생성 코드를 한 곳으로 집중)
+### 2. 단일 책임 원칙 (제품 생성 코드를 한 곳으로 집중)
 ```ts
 // 객체를 생성하는 책임은 해당 NaverAuthFactory 에서만 존재
 class NaverAuthFactory extends AuthFactory {
@@ -226,7 +252,7 @@ class NaverAuthFactory extends AuthFactory {
 }
 ```
 
-## 3. 개방/폐쇄 원칙 (기존 코드 수정 없이 확장)
+### 3. 개방/폐쇄 원칙 (기존 코드 수정 없이 확장)
 ```ts
 // 새로운 Conrete Product 클래스 추가 (기존 코드 수정 X)
 class GoogleUser implements User {
@@ -248,11 +274,11 @@ class GoogleAuthFactory extends AuthFactory {
   }
 }
 ```
-## 3가지 장점 한눈에 보기 (다이어그램) 
+### 3가지 장점 한눈에 보기 (다이어그램) 
 <img width="883" height="640" alt="스크린샷 2025-12-07 오후 2 40 20" src="https://github.com/user-attachments/assets/b9941a27-6574-4785-9084-7cfa82ae8eed" />
 
 
-# 핵심 요약 
+## 핵심 요약 
 팩토리 메서드 패턴은 객체 생성 로직을 서브클래스에 위임함으로서 비즈니스 로직이 구체 클래스에 의존하지 않도록 하는 패턴
 그 과정에서 오버라이드가 핵심
 
