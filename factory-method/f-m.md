@@ -182,33 +182,114 @@ abstract class AuthFactory {
 ```
 - 팩토리 메서드는 **핵심 비즈니스 로직에서 구체적인 클래스 의존성을 분리**하기 위한 도구.
 
-# 전체코드 (로그인 과정)
+# 팩토리 메서드의 3가지 장점
+- 관심사 분리
+- 단일 책임 원칙
+- 개방/폐쇄 원칙
+
+## 1. 관심사 분리 
+
 ```ts
-interface User {
-  type: string;
-  email: string;
-  password: string;
+// 1. 부모 클래스에서 객체들을 생성할 수 있는 인터페이스를 제공한다.
+abstract class AuthFactory {
+  abstract createUser(): User; // ← 객체 생성 인터페이스
+  //                     ^^^^
+  //                      ↑  User 인터페이스만 알고 Concrete Product(구체 클래스)는 모름 
+
+  signup() {
+    const user = this.createUser(); // ← 인터페이스를 통해 객체 생성
+    //           ^^^^^^^^^^^^^^^^
+    //           ↑ NaverUser인지, KakaoUser인지 모름
+    user.signup();
+  }
 }
+```
 
-class NaverUser implements User {
-  // 💡 User 인터페이스의 속성을 구현합니다.
-  type: string;
+```ts
+class NaverAuthFactory extends AuthFactory {
+  createUser(platform: string, email: string, password: string): User {
+    return new NaverUser(platform, email, password);
+    //     ^^^^^^^^^^^^^
+    //     ↑ 여기서만 구체 클래스를 알고 있음
+  }
+}
+```
+
+## 2. 단일 책임 원칙 (제품 생성 코드를 한 곳으로 집중)
+```ts
+// 객체를 생성하는 책임은 해당 NaverAuthFactory 에서만 존재
+class NaverAuthFactory extends AuthFactory {
+  createUser(platform: string, email: string, password: string): User {
+    return new NaverUser(platform, email, password);
+    // ↑ Naver 유저 생성 책임은 여기만 알고 있음
+  }
+}
+```
+
+## 3. 개방/폐쇄 원칙 (기존 코드 수정 없이 확장)
+```ts
+// 새로운 Conrete Product 클래스 추가 (기존 코드 수정 X)
+class GoogleUser implements User {
+  platform: string;
   email: string;
   password: string;
 
-  constructor(type: string, email: string, password: string) {
-    this.type = type;
+  constructor(platform: string, email: string, password: string) {
+    this.platform = platform;
     this.email = email;
     this.password = password;
   }
 }
 
+// 새로운 Factory(Concrete Creator) 클래스 추가 (기존 코드 수정 X)
+class GoogleAuthFactory extends AuthFactory {
+  createUser(platform: string, email: string, password: string): User {
+    return new GoogleUser(platform, email, password);
+  }
+}
+```
+
+# 핵심 요약 
+팩토리 메서드 패턴은 객체 생성 로직을 서브클래스에 위임함으로서 비즈니스 로직이 구체 클래스에 의존하지 않도록 하는 패턴
+그 과정에서 오버라이드가 핵심
+
+---
+
+# 참고 자료
+
+https://heyjoshlee.medium.com/factory-functions-in-javascript-the-how-and-why-d8988bda654a
+https://reactiveprogramming.io/blog/en/design-patterns/factory-method
+
+## 전체코드 (로그인 프로세스)
+
+```ts
+// Product
+interface User {
+  platform: string;
+  email: string;
+  password: string;
+}
+
+// Concrete Product
+class NaverUser implements User {
+  platform: string;
+  email: string;
+  password: string;
+
+  constructor(platform: string, email: string, password: string) {
+    this.platform = platform;
+    this.email = email;
+    this.password = password;
+  }
+}
+
+// Creator
 // ✅ 실제: 크리에이터는 핵심 비즈니스 로직을 가진 클래스
 abstract class AuthFactory {
-  abstract createUser(type: string, email: string, password: string): User;
+  abstract createUser(platform: string, email: string, password: string): User;
 
   // 👇 이게 진짜 주 책임! 회원가입 프로세스 전체를 관리
-  signup(type: string, email: string, password: string) {
+  signup(platform: string, email: string, password: string) {
     // 1. 이메일 유효성 검사
     this.validateEmail(email);
 
@@ -216,7 +297,7 @@ abstract class AuthFactory {
     const encryptedPw = this.encryptPassword(password);
 
     // 3. 사용자 생성 (여기만 유연하게!)
-    const user = this.createUser(type, email, password);
+    const user = this.createUser(platform, email, password);
 
     // 4. 데이터베이스 저장
     this.saveToDatabase(user);
@@ -224,7 +305,10 @@ abstract class AuthFactory {
     // 5. 환영 이메일 발송
     this.sendWelcomeEmail(user);
 
-    return user;
+    return {
+      platform: user.platform,
+      email: user.email,
+    };
   }
 
   private validateEmail(email: string) {}
@@ -233,15 +317,15 @@ abstract class AuthFactory {
   private sendWelcomeEmail(user: User) {}
 }
 
+// Concrete Creator
 class NaverAuthFactory extends AuthFactory {
-  createUser(type: string, email: string, password: string): User {
-    return new NaverUser(type, email, password);
+  createUser(platform: string, email: string, password: string): User {
+    return new NaverUser(platform, email, password);
   }
 }
 
-// 개선: 타입에 따라 자동으로 Factory 선택
-function getAuthFactory(type: string): AuthFactory {
-  switch (type) {
+function getAuthFactory(platform: string): AuthFactory {
+  switch (platform) {
     case "Naver":
       return new NaverAuthFactory();
     // case "Kakao": return new KakaoAuthFactory();
@@ -251,13 +335,8 @@ function getAuthFactory(type: string): AuthFactory {
   }
 }
 
-// client code
-// Client는 구체적인 Factory를 몰라도 됨!
+// Client Code : Client는 구체적인 팩토리는 몰라도 됨
 const factory = getAuthFactory("Naver"); // ← 추상 타입만 알면 OK
 const user = factory.signup("Naver", "joe", "123");
+console.log("user", user);
 ```
-
-# 참고 자료
-
-https://heyjoshlee.medium.com/factory-functions-in-javascript-the-how-and-why-d8988bda654a
-https://reactiveprogramming.io/blog/en/design-patterns/factory-method
