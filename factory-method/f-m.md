@@ -71,7 +71,12 @@ Factory란 객체를 대신 생성해 주는 것 (함수,클래스 상관없이 
 ---
 
 # Factory Method Pattern
+<img width="1320" height="760" alt="image" src="https://github.com/user-attachments/assets/dde3ca12-b95c-46de-82e8-73125eef207f" />
+
+<img width="2158" height="1280" alt="image" src="https://github.com/user-attachments/assets/17a34332-cccd-4ab6-b3ea-d55e06dcaf2b" />
+
 
 # 참고 자료
 
 https://heyjoshlee.medium.com/factory-functions-in-javascript-the-how-and-why-d8988bda654a
+https://reactiveprogramming.io/blog/en/design-patterns/factory-method
