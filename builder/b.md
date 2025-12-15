@@ -1,6 +1,6 @@
 # Builder Pattern
 
-## 1. 개념
+## 개념
 <img width="1280" height="800" alt="image" src="https://github.com/user-attachments/assets/a87645b6-d54a-492c-b97e-7eaa3b56bcd5" />
 
 > 빌더 패턴은 복잡한 객체의 생성과 표현을 분리 - 위키피디아
@@ -16,7 +16,9 @@
 | 유형 | 생성되는 `Product`의 클래스 자체가 다름 |
 | 표현 | 같은 `Product` 클래스 내에서 내부 구성이 다름 |
 
-## 2. 안티 코드(문제)
+## 문제
+
+### 문제1. 안티 코드
 
 ```ts
 class Address {
@@ -75,14 +77,57 @@ const MonsterUser = new UserProfile(
 ```
 유저 하나를 생성하기 위해서 상당한 수의 자식 클래스가 생성되며 새로운 매개변수를 추가할 때마다 계층구조는 복잡해지게 됩니다.
 
-## 3. 확장하기
-간단한 `user`객체에서 요구사항을 늘리면 어떻게 될까요? 성별, 키, 몸무게, 등등이요 
+### 문제2. 확장하기
+간단한 `user`객체에서 요구사항을 늘리면 어떻게 될까요? (성별, 키, 몸무게, 등)
 
 가장 간단한 해결책은 `User` 클래스를 확장(extend)하고 매개변수의 모든 조합을 포함하는 자식 클래스들의 집합을 만들면됩니다. <br/>
-
 `UserWithHeight`, `UserWithGender`, `UserWithWeight` 하지만 이런식으로 확장하게 될 경우 많은 수의 자식 클래스를 생성할 수밖에 없게 됩니다. 
 
-## 4. 자식 클래
+### 문제3. 자식 클래스를 늘리지 않고 확장하기 
+
+자식 클래스들을 늘리지 않기 위한 방식으로는 기초 `User`클래스에 `User`객체를 제어하는 모든 가능한 매개변수를 포함한 거대한 생성자를 만드는 것 
+
+```ts
+interface User {
+  id: stirng;
+  email: stirng;
+  password: string;
+  height: number;
+  weight: number;
+  gender : "M" | "W"
+  // ...more
+};
+```
+하지만 이 방식은 대부분의 매개변수가 사용되지 않을수도 있습니다.<br/>
+
+`new User("asdf","test@email.com", "1234", null, null, null)`<br/> 
+`new User("asdf","test@email.com", "1234", null, 70, "M")`
+
+## 문제를 해결하기 위한 Builder
+
+- 빌더 패턴은 자신의 클래스에서 **객체 생성 코드**를 → Builders라는 별도의 객체(클래스)들로 분리
+
+<img width="686" height="406" alt="스크린샷 2025-12-15 오후 5 15 43" src="https://github.com/user-attachments/assets/3ef62fca-340d-4129-893b-48ed7c6d9a99" />
+
+빌더 패턴은 복잡한 객체를 단계별로 생성할 수 있도록 돕는다.<br/>
+객체를 생성하고 싶으면 빌더에게 요청해서 실행시키면됩니다. 또 빌더는 모든 단계를 호출할 필요가 없습니다.(속성을 선택할 수 있음) 
+
+## Director - 작업 순서 관리자 
+
+디렉터는 제품을 생성하는 데 필요한 단계들에 대한 호출을 담당합니다.<br/>
+디렉터 클래스는 제작 단계들의 순서를 조율해줍니다. 
+
+> 단 디렉터 클래스는 선택사항합니다. 언제든지 클라이언트 코드에서 생성 단계들을 직접 특정 순서로 호출할 수 있습니다.
+> 디렉터는 다양한 생성 루틴을 배치하여 프로그램 전체에서 재사용할 수 있는 장소입니다.
+
+## 다이어그램 
+
+<img width="940" height="1160" alt="image" src="https://github.com/user-attachments/assets/1710925e-76ae-46e5-a635-1e831fc5384b" />
+
+## 전체 코드 
+
+
+
 
 
 
