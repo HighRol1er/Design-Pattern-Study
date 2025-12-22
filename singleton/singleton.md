@@ -31,26 +31,33 @@
 
 <img width="860" height="580" alt="image" src="https://github.com/user-attachments/assets/46e18212-81b1-4c9f-b951-c2dca19cfcdd" />
 
-## 예시 코드 
-```ts
+## 예시 코드
 
+```ts
+class Singleton {
+  private static instance: Singleton;
+
+  private consturctor() {}
+
+  public static getInstance(): Singleton {
+    if (!Singleton.instance) {
+      Singleton.instance = new Singleton();
+    }
+
+    return Singleton.instance;
+  }
+
+  public someLogic() {
+    console.log("로직 실행");
+  }
+}
+
+const client1 = Singleton.getInstance();
+const client2 = Singleton.getInstance();
+
+console.log(client1 === client2); // true
 ```
 
-## 프로그래밍 언어별 싱글톤
+# 추가
 
-### TypeScript
-
-안티패턴으로 간주됨 → TS코드에서의 사용은 감소하고 있음
-
-### Python
-
-Python의 모듈은 그 자체로 싱글턴
-
-### NestJs - Framework
-
-NestJs 모듈로 선언하면 어떤 모듈에서든지 재사용이 가능함
-
-싱글톤과 유사한건 뭐가 있을꼬
-
-Provider - 객체의 개수가 하나지만 공유/해제 방식을 제어
-static method
+## 싱글톤은 안티 패턴이다?
