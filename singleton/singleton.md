@@ -29,7 +29,12 @@
 
 ## 다이어그램
 
-첨부예정
+<img width="860" height="580" alt="image" src="https://github.com/user-attachments/assets/46e18212-81b1-4c9f-b951-c2dca19cfcdd" />
+
+## 예시 코드 
+```ts
+
+```
 
 ## 프로그래밍 언어별 싱글톤
 
