@@ -61,3 +61,22 @@ console.log(client1 === client2); // true
 # 추가
 
 ## 싱글톤은 안티 패턴이다?
+
+<img width="832" height="520" alt="스크린샷 2025-12-23 오전 4 51 04" src="https://github.com/user-attachments/assets/293f6a0e-3733-453b-899c-f1cbe68358f2" />
+
+즉, 싱글톤은 확장성과 개념이 먼 패턴인 것<br/>
+
+> 내 생각: GoF 패턴은 1994년에 나왔고 TDD 개념은 2000년대 초반에 나왔음 이러면서 싱글톤을 테스트 해보려니깐 너무 어려워서 개발자들 개빡쳤을듯 
+
+## 그럼 뭘 써? 
+
+DI 쓰세요 그 외 다른 패턴들도 많이 있음 
+<img width="895" height="165" alt="스크린샷 2025-12-23 오전 4 59 28" src="https://github.com/user-attachments/assets/d4f54c55-dd95-4ed3-9185-707a4d355383" />
+
+https://www.geeksforgeeks.org/system-design/why-is-singleton-design-pattern-is-considered-an-anti-pattern/
+
+# 참고 
+https://testing.googleblog.com/2008/08/by-miko-hevery-so-you-join-new-project.html
+https://www.geeksforgeeks.org/system-design/why-is-singleton-design-pattern-is-considered-an-anti-pattern/
+https://www.michaelsafyan.com/tech/design/patterns/singleton
+
