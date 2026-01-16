@@ -19,7 +19,7 @@
 2. 빈 마름모: (집합- Aggregation)
 - 연관 관계중 하나로 다른 객체를 포함하는 부분-전체 관계를 의미 (has-a)
 - 느슨한 관계(서로 독립적)로 포함하는 쪽(`Composite`)이 사라져도 무방
-- 0..*`Component` child ---◇ parent `Composite`
+- `Component` 0..* child ---◇ 1 parent `Composite`
 - `Composite`객체 속에 여러 개의 `Component`를 가지고 있다.
 - 복합체 패턴에서는 자기 자신을 참조하는 재귀적 구조라 트리 구조의 핵심이 됨
 
@@ -168,6 +168,7 @@ class Fish extends Animal {
     }
 }
 ```
+
 
 
 
