@@ -21,7 +21,7 @@
 - 느슨한 관계(서로 독립적)로 포함하는 쪽(`Composite`)이 사라져도 무방
 - 0..*`Component` child ---◇ parent `Composite`
 - `Composite`객체 속에 여러 개의 `Component`를 가지고 있다.
-- 특히 복합체 패턴에서는 자기 자신을 참조하는 재귀적 구조를 표현하고 있어, 트리 구조의 핵심이 됨
+- 복합체 패턴에서는 자기 자신을 참조하는 재귀적 구조라 트리 구조의 핵심이 됨
 
 > 이러한 재귀적 구조 덕분에 Composite 안에 `Leaf`, `Composite`를 여러개 넣을 수 있는 트뤼 구조구나!
 
@@ -168,5 +168,6 @@ class Fish extends Animal {
     }
 }
 ```
+
 
 
